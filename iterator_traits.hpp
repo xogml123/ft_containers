@@ -81,7 +81,6 @@ namespace ft{
                 iterator_type tmp(current);
                 tmp--;
                 return *tmp;
-                //return *current;
             };
             pointer operator->() const
             {
