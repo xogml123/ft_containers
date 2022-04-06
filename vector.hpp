@@ -402,7 +402,7 @@ namespace ft{
 				}
 				return (begin() + start);
 			}
-
+//insert
 			void insert (iterator position, size_type n, const value_type& val){
 				if (n == 0)
 					return ;
