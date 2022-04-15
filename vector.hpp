@@ -247,17 +247,32 @@ namespace ft{
 			}
 
 			void reserve (size_type n){
+				if (n > max_size())
+                    throw std::length_error("vector");
 				if (n < _capacity)
 					return;
+				pointer tmp = _alloc.allocate(n);
+                for (size_type i = 0; i < _size; ++i)
+                    _alloc.construct(&tmp[i], _vector[i]);
+
+                this->~vector();
+                _capacity = n;
+                _first = tmp;
+			}
+
+			void reserve (size_type n){
+				if (n < _capacity)
+					return;
+				size_type i = 0;
 				pointer newarr = _allocator.allocate(n);
 				try{
-					for (size_type i = 0; i < _size; i++)
+					for (i = 0; i < _size; i++)
 						_allocator.construct(newarr + i, *(_first + i));
 				} catch (std::exception &e){
-					size_type i = 0;
-					while (newarr + i != NULL && i < _size){
-						_allocator.destroy(newarr + i);
-						i++;
+					size_type destIdx = 0;
+					while (destIdx < i){
+						_allocator.destroy(newarr + destIdx);
+						destIdx++;
 					}
 					_allocator.deallocate(newarr, n);
 					throw;
@@ -269,6 +284,9 @@ namespace ft{
 				_capacity = n;
 				_first = newarr;
 			}
+
+			
+
 
 			void resize (size_type n, value_type val = value_type()){
 				if(n < _size){
@@ -302,13 +320,13 @@ namespace ft{
 			}
 
 			reference at (size_type n){
-				if(n > _capacity)
+				if(n >= size)
 					throw std::out_of_range("vector at out of range");
 				return(*(_first + n));
 			}
 
 			const_reference at (size_type n) const{
-				if(n > _capacity)
+				if(n >= _size)
 					throw std::out_of_range("vector at out of range");
 				return(*(_first + n));
 			}
