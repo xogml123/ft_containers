@@ -61,12 +61,6 @@ namespace ft
 
         public:
 
-		/*
-		 *
-		 * CONSTRUCTORS
-		 *
-		 */
-
         explicit set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
         _size(0),
         _allocator(alloc),
@@ -106,11 +100,6 @@ namespace ft
             return *this;
         }
 
-		/*
-		 *
-		 * Iterators
-		 *
-		 */
 
         iterator begin()
         {
@@ -153,11 +142,6 @@ namespace ft
             return (const_reverse_iterator(_set.left_most()));
         }
 
-		/*
-		 *
-		 * CAPACITY
-		 *
-		 */
 
         bool empty() const
         {
@@ -176,11 +160,6 @@ namespace ft
             return _set.get_allocator().max_size();
         }
 
-		/*
-		 *
-		 * Modifiers
-		 *
-		 */
 
         pair<iterator,bool>
         insert(const value_type& val)
@@ -263,11 +242,6 @@ namespace ft
             }
         }
 
-        /*
-		 *
-		 * Observers
-		 *
-		 */
 
         key_compare
         key_comp() const
@@ -280,12 +254,6 @@ namespace ft
         {
             return value_compare(_cmp);
         }
-
-		/*
-		 *
-		 * Operations
-		 *
-		 */
 
         iterator
         find(const value_type& val) const

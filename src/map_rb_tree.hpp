@@ -1,5 +1,5 @@
-#ifndef RB_TREE
-#define RB_TREE
+#ifndef TREE
+#define TREE
 
 #include <iostream>
 #include <memory>
@@ -21,7 +21,7 @@ namespace ft
         node *right;
         T item;
 
-        node(const T & data) : item(data)
+        node(const T & data) : item(data.first, data.second)
         {
             parent = NULL;
             left = NULL;
@@ -38,13 +38,15 @@ namespace ft
         }
     };
 
-    template < class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
+    template <class Key, class T, class keyCompare = std::less<Key>, class valueCompare = std::less<T>, class Alloc = std::allocator<ft::pair<const Key, T> > >
     class rb_tree
     {
         public:
-		typedef T value_type;
-        typedef T key_type;
-        typedef Compare key_compare;
+		typedef ft::pair<const Key, T> value_type;
+        typedef Key key_type;
+        typedef T mapped_type;
+        typedef keyCompare key_compare;
+		typedef valueCompare value_compare;
 		typedef typename Alloc::template rebind<node<value_type> >::other allocator_type;
 		typedef std::size_t size_type;
 		typedef node<value_type> node;
@@ -78,7 +80,7 @@ namespace ft
             else
             {
                 node *new_parent = insertion_destination(_nil->right, new_node);
-                if (_cmp(new_parent->item, new_node->item))
+                if (_cmp(new_parent->item.first, new_node->item.first))
                     new_parent->right = new_node;
                 else
                     new_parent->left = new_node;
@@ -176,10 +178,10 @@ namespace ft
 
         node *search_helper(node *current, const key_type &key) const
         {
-            if (current == _nil || equal(key, current->item))
+            if (current == _nil || equal(key, current->item.first))
                 return current;
             
-            if (_cmp(key, current->item))
+            if (_cmp(key, current->item.first))
                 return search_helper(current->left, key);
             return search_helper(current->right, key);
         }
@@ -187,8 +189,8 @@ namespace ft
         void delete_node_helper(const key_type &key)
         {
             node *z = search(key);
-            node *x;
-            node *y;
+            node *x;//delete fix (double black)대상
+            node *y;//delete 할 노드 선정
 
             if (!z)
                 return;
@@ -240,6 +242,7 @@ namespace ft
                 if (x == x->parent->left)
                 {
                     s = x->parent->right;
+                    //case1
                     if (s->color == 0)
                     {
                         s->color = 1;
@@ -247,6 +250,7 @@ namespace ft
                         left_rotate(x->parent);
                         s = x->parent->right;
                     }
+                    //case2
                     if (s->left->color == 1 && s->right->color == 1)
                     {
                         s->color = 0;
@@ -254,6 +258,7 @@ namespace ft
                     }
                     else
                     {
+                        // case3
                         if (s->right->color == 1)
                         {
                             s->left->color = 1;
@@ -261,7 +266,7 @@ namespace ft
                             right_rotate(s);
                             s = x->parent->right;
                         }
-
+                        //case4
                         s->color = x->parent->color;
                         x->parent->color = 1;
                         s->right->color = 1;
@@ -367,7 +372,7 @@ namespace ft
 
         void insert_fix(node *z)
         {
-            // red = 0 et black = 1
+            // red = 0 black = 1
             node *uncle;
             while (z->parent->color == 0)
             {
@@ -396,6 +401,7 @@ namespace ft
                 else
                 {
                     uncle = z->parent->parent->right;
+                    //case1
                     if (uncle->color == 0)
                     {
                         uncle->color = 1;
@@ -405,11 +411,13 @@ namespace ft
                     }
                     else
                     {
+                        //case2
                         if (z == z->parent->right)
                         {
                             z = z->parent;
                             left_rotate(z);
                         }
+                        //cas3
                         z->parent->color = 1;
                         z->parent->parent->color = 0;
                         right_rotate(z->parent->parent);
@@ -425,7 +433,7 @@ namespace ft
         {
             while (position != _nil)
             {
-                if (_cmp(position->item, new_node->item))
+                if (_cmp(position->item.first, new_node->item.first))
                 {
                     if (position->right == _nil)
                         return position;
@@ -467,7 +475,7 @@ namespace ft
                     sColor = "BLACK";
                 else
                     sColor = "RED";
-                std::cout << root->item << "(" << sColor << ")" << std::endl;
+                std::cout << root->item.first << "(" << sColor << ")" << std::endl;
                 printHelper(root->left, indent, false);
                 printHelper(root->right, indent, true);
             }

@@ -26,10 +26,7 @@ namespace ft
 
         void successor(void)
         {
-            // si (current de droite existe)
-            //     go a droite puis go le plus a gauche possible
-            // sinon
-            //     remonte tant que tu viens de la droite
+   
             if (_ptr->right->is_nil() == false)
             {
                 _ptr = _ptr->right;
@@ -48,10 +45,7 @@ namespace ft
 
         void predecessor(void)
         {
-            // si current de gauche existe 
-            //     go a gauche puis le plus a droite possible
-            // sinon
-            //     remonte tant que tu viens de la gauche
+   
             if (_ptr->is_nil())
             {
                 _ptr = _ptr->right;

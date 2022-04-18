@@ -15,14 +15,6 @@ namespace ft
 	{
 	public:
 
-		/*
-		 *
-		 * member types of vector
-		 * it's basically typedef for
-		 * data structures
-		 *
-		 */
-
 		typedef T value_type;
 		typedef Alloc allocator_type;
 		typedef typename allocator_type::reference reference;
@@ -55,12 +47,6 @@ namespace ft
 		allocator_type _allocator;
 
 	public:
-
-		/*
-		 *
-		 * CONSTRUCTORS
-		 *
-		 */
 
 		// default
 		explicit vector(const allocator_type& alloc = allocator_type()) :
@@ -146,13 +132,6 @@ namespace ft
 				this->_allocator.construct(this->_vector + i, x[i]);
 			return *this;
 		}
-
-		/*
-		 *
-		 * Iterators
-		 *
-		 */
-
 		iterator
 		begin()
 		{
@@ -208,12 +187,6 @@ namespace ft
 			reverse_iterator last(this->begin());
 			return last;
 		}
-
-		/*
-		 *
-		 * Capacity
-		 *
-		 */
 
 		size_type
 		size() const
@@ -277,11 +250,6 @@ namespace ft
 			return this->_size == 0;
 		}
 
-		/*
-		 *
-		 * Element access methods
-		 *
-		 */
 
 		reference
 		operator[] (size_type n)
@@ -334,12 +302,6 @@ namespace ft
 		{
 			return this->at(this->_size - 1);
 		}
-
-		/*
-		 *
-		 * Modifiers
-		 *
-		 */
 
         template <class InputIterator>
 		void

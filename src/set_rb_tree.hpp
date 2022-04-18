@@ -1,5 +1,5 @@
-#ifndef TREE
-#define TREE
+#ifndef RB_TREE
+#define RB_TREE
 
 #include <iostream>
 #include <memory>
@@ -21,7 +21,7 @@ namespace ft
         node *right;
         T item;
 
-        node(const T & data) : item(data.first, data.second)
+        node(const T & data) : item(data)
         {
             parent = NULL;
             left = NULL;
@@ -38,15 +38,13 @@ namespace ft
         }
     };
 
-    template <class Key, class T, class keyCompare = std::less<Key>, class valueCompare = std::less<T>, class Alloc = std::allocator<ft::pair<const Key, T> > >
+    template < class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
     class rb_tree
     {
         public:
-		typedef ft::pair<const Key, T> value_type;
-        typedef Key key_type;
-        typedef T mapped_type;
-        typedef keyCompare key_compare;
-		typedef valueCompare value_compare;
+		typedef T value_type;
+        typedef T key_type;
+        typedef Compare key_compare;
 		typedef typename Alloc::template rebind<node<value_type> >::other allocator_type;
 		typedef std::size_t size_type;
 		typedef node<value_type> node;
@@ -80,7 +78,7 @@ namespace ft
             else
             {
                 node *new_parent = insertion_destination(_nil->right, new_node);
-                if (_cmp(new_parent->item.first, new_node->item.first))
+                if (_cmp(new_parent->item, new_node->item))
                     new_parent->right = new_node;
                 else
                     new_parent->left = new_node;
@@ -178,10 +176,10 @@ namespace ft
 
         node *search_helper(node *current, const key_type &key) const
         {
-            if (current == _nil || equal(key, current->item.first))
+            if (current == _nil || equal(key, current->item))
                 return current;
             
-            if (_cmp(key, current->item.first))
+            if (_cmp(key, current->item))
                 return search_helper(current->left, key);
             return search_helper(current->right, key);
         }
@@ -369,7 +367,7 @@ namespace ft
 
         void insert_fix(node *z)
         {
-            // red = 0 et black = 1
+            // red = 0  black = 1
             node *uncle;
             while (z->parent->color == 0)
             {
@@ -427,7 +425,7 @@ namespace ft
         {
             while (position != _nil)
             {
-                if (_cmp(position->item.first, new_node->item.first))
+                if (_cmp(position->item, new_node->item))
                 {
                     if (position->right == _nil)
                         return position;
@@ -469,7 +467,7 @@ namespace ft
                     sColor = "BLACK";
                 else
                     sColor = "RED";
-                std::cout << root->item.first << "(" << sColor << ")" << std::endl;
+                std::cout << root->item << "(" << sColor << ")" << std::endl;
                 printHelper(root->left, indent, false);
                 printHelper(root->right, indent, true);
             }

@@ -28,5 +28,11 @@
 
 # Executables
 *.exe
-*.out
+*.out*
 *.app
+
+# Test results
+*.log
+*.diff
+
+.vscode

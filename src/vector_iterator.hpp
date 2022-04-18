@@ -18,12 +18,6 @@ namespace ft
 		typedef typename ft::is_const<IsConst, T&, const T&>::value reference;
 		typedef random_access_iterator_tag iterator_category;
 
-		/*
-		 *
-		 * Constructors
-		 *
-		 */
-
 		vector_iterator(void) : _ptr(NULL)
 		{}
 
@@ -43,11 +37,6 @@ namespace ft
 			return *this;
 		}
 
-		/*
-		 *
-		 * Comparaisons
-		 *
-		 */		
 
 		template<bool B>
 		bool
@@ -62,12 +51,6 @@ namespace ft
 		{
 			return !(this->_ptr == src.getPtr());
 		}
-
-		/*
-		 *
-		 * Dereference
-		 *
-		 */
 
 		pointer
 		getPtr(void) const
@@ -86,12 +69,6 @@ namespace ft
 		{
 			return this->_ptr;
 		}
-
-		/*
-		 *
-		 * Arithmetic Operations
-		 *
-		 */
 
 		vector_iterator &
 		operator++(void)
@@ -163,12 +140,6 @@ namespace ft
 		{
 			return this->_ptr[n];
 		}
-
-		/*
-		 *
-		 * Non member oveloads
-		 *
-		 */
 
 		friend bool
 		operator<(vector_iterator<T, IsConst> const &a, vector_iterator<T, IsConst> const &b)

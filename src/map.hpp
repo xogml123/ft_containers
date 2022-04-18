@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <functional>
 #include "utility.hpp"
-#include "tree.hpp"
+#include "map_rb_tree.hpp"
 #include "map_iterator.hpp"
 
 namespace ft
@@ -61,21 +61,13 @@ namespace ft
 
         public:
 
-		/*
-		 *
-		 * CONSTRUCTORS
-		 *
-		 */
-
-
-        // default
         explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
         _size(0),
         _allocator(alloc),
         _cmp(comp)
         {}
 
-        //range
+  
         template <class InputIterator>
         map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
         _size(0),
@@ -110,12 +102,6 @@ namespace ft
             clear();
         }
 
-		/*
-		 *
-		 * CAPACITY
-		 *
-		 */
-
         bool
         empty() const
         {
@@ -134,11 +120,6 @@ namespace ft
             return _map.get_allocator().max_size();
         }
 
-		/*
-		 *
-		 * Iterators
-		 *
-		 */
 
         iterator
         begin()
@@ -188,11 +169,7 @@ namespace ft
             return (const_reverse_iterator(_map.left_most()));
         }
 
-		/*
-		 *
-		 * Element Access
-		 *
-		 */
+
 
         mapped_type&
         operator[](const key_type& k)
@@ -200,11 +177,6 @@ namespace ft
             return (*((insert(ft::make_pair(k,mapped_type()))).first)).second;
         }
 
-		/*
-		 *
-		 * Modifiers
-		 *
-		 */
 
         pair<iterator,bool>
         insert(const value_type& val)
@@ -288,11 +260,6 @@ namespace ft
             }
         }
 
-        /*
-		 *
-		 * Observers
-		 *
-		 */
 
         key_compare key_comp() const
         {
@@ -304,11 +271,6 @@ namespace ft
             return value_compare(_cmp);
         }
 
-		/*
-		 *
-		 * Operations
-		 *
-		 */
 
         iterator
         find(const key_type& k)
