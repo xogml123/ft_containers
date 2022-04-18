@@ -2,7 +2,6 @@
 #define VECTOR_HPP
 #include <memory>
 #include "utils.hpp"
-#include "iterator_traits.hpp"
 
 namespace ft{
 
@@ -306,7 +305,7 @@ namespace ft{
 			}
 
 			reference at (size_type n){
-				if(n >= size)
+				if(n >= _size)
 					throw std::out_of_range("vector at out of range");
 				return(*(_first + n));
 			}

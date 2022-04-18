@@ -24,23 +24,23 @@ namespace ft{
 		typedef const value_type& const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef red_black_tree<value_type, key_compare, allocator_type> tree_type;
-		typedef typename tree_type::iterator iterator;
-		typedef typename tree_type::const_iterator const_iterator;
-		typedef typename tree_type::reverse_iterator reverse_iterator;
-		typedef typename tree_type::const_reverse_iterator const_reverse_iterator;
+		typedef red_black_tree<value_type, key_compare, allocator_type> tree_iterator;
+		typedef typename tree_iterator::iterator iterator;
+		typedef typename tree_iterator::const_iterator const_iterator;
+		typedef typename tree_iterator::reverse_iterator reverse_iterator;
+		typedef typename tree_iterator::const_reverse_iterator const_reverse_iterator;
 
 	private:
-		tree_type _tree;
+		tree_iterator _tree;
 
 	public:
 
-		explicit set(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _tree(tree_type(comp, alloc)) {}
+		explicit set(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _tree(tree_iterator(comp, alloc)) {}
 		
 		template< class InputIt >
-		set(InputIt first, InputIt last, const Compare & comp = Compare(), const Allocator &alloc = Allocator()): _tree(tree_type(first, last, comp, alloc)) {}
+		set(InputIt first, InputIt last, const Compare & comp = Compare(), const Allocator &alloc = Allocator()): _tree(tree_iterator(first, last, comp, alloc)) {}
 
-		set(const set& other): _tree(tree_type(other._tree)) {}
+		set(const set& other): _tree(tree_iterator(other._tree)) {}
 
 
 		set operator=(const set & other){
@@ -221,5 +221,4 @@ namespace std {
 		lhs.swap(rhs);
 	}
 }
-
 #endif

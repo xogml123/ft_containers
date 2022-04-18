@@ -1,7 +1,8 @@
 #ifndef MAP_HPP
 # define MAP_HPP
-#include "RBTree.hpp"
-#include "../utility/utility.hpp"
+
+#include "red_black_tree.hpp"
+#include "utils.hpp"
 
 namespace ft {
 
@@ -33,29 +34,28 @@ namespace ft {
 		};
 	public:
 		typedef pair_compare value_compare;
-		typedef RBTree<value_type, pair_compare, allocator_type> tree_type;
-		typedef typename tree_type::iterator				iterator;
-		typedef typename tree_type::const_iterator			const_iterator;
-		typedef typename tree_type::reverse_iterator		reverse_iterator;
-		typedef typename tree_type::const_reverse_iterator	const_reverse_iterator;
+		typedef red_black_tree<value_type, pair_compare, allocator_type> tree_iterator;
+		typedef typename tree_iterator::iterator				iterator;
+		typedef typename tree_iterator::const_iterator			const_iterator;
+		typedef typename tree_iterator::reverse_iterator		reverse_iterator;
+		typedef typename tree_iterator::const_reverse_iterator	const_reverse_iterator;
 	
 	private:
 		allocator_type	_alloc;
-		tree_type		_tree;
+		tree_iterator		_tree;
 		key_compare		_compare;
 	
 	public:
 
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):
-			_alloc(alloc), _tree(tree_type(comp, alloc)), _compare(comp) {}
+			_alloc(alloc), _tree(tree_iterator(comp, alloc)), _compare(comp) {}
 
 		template< class InputIt >
 		map(InputIt first, InputIt last, const Compare& compare = Compare(), const Allocator& alloc = Allocator()):
 			_alloc(alloc), _tree(first, last, compare, _alloc), _compare(compare) {}
 	
 		mapped_type& operator[](const key_type& key){
-			//make_pair(key, mapped_type());
-		//	return	_tree.insert(make_pair(key, mapped_type())).first->second;
+			
 			return (*((this->insert(ft::make_pair(key,mapped_type()))).first)).second;
 		}
 

@@ -4,7 +4,10 @@
 #include <memory>
 
 #include "tree_iterator.hpp"
-#include "utility.hpp"
+#include "utils.hpp"
+
+
+namespace ft{
 
 template<class Value, class Compare = std::less<Value>, class Alloc = std::allocator<Value> >
 class red_black_tree{
@@ -14,7 +17,6 @@ class red_black_tree{
 		typedef Alloc	allocator_type;
 		typedef typename Alloc::template
 			                rebind<Node<Value> >::other            node_allocator;
-		//typedef Node_Alloc node_allocator_type;
 		typedef	typename node_allocator::pointer node_pointer;
 		typedef typename allocator_type::reference reference;
 		typedef typename allocator_type::const_reference const_reference;
@@ -35,7 +37,6 @@ class red_black_tree{
 		node_pointer				_root;
 		size_type					_size;
 		
-		//HELPER FUNCTIONS
 		node_pointer	tree_min(node_pointer n) const{
 			while (n != NULL && !is_nil(n->left))
 				n = n->left;
@@ -118,6 +119,7 @@ class red_black_tree{
 				while (node != _root && !node->parent->is_black){
 					if (node->parent == node->parent->parent->left){
 						node_pointer uncle = node->parent->parent->right;
+						//case1
 						if (!uncle->is_black){
 							node->parent->is_black = true;
 							uncle->is_black = true;
@@ -125,10 +127,12 @@ class red_black_tree{
 							node = node->parent->parent;
 						}
 						else {
+							//case2
 							if (node == node->parent->right){
 								node = node->parent;
 								_rotate_left(node);
 							}
+							//case3
 							node->parent->is_black = true;
 							node->parent->parent->is_black = false;
 							_rotate_right(node->parent->parent);
@@ -183,6 +187,7 @@ class red_black_tree{
 			_val_alloc.construct(_header->value, Value());
 			_header->is_black = true;
 		}
+
 		void transplant(node_pointer where, node_pointer what) {
 			if (where == _root)
 				_root = what;
@@ -199,20 +204,6 @@ class red_black_tree{
 			_node_alloc.deallocate(node, 1);
 		}
 
-		//void _visualize(int tabs , node_pointer root, bool new_str){
-		//	if (root == _nil)
-		//		return;
-		//	std::string color = root->is_black == true ? "\x1b[m" : "\x1b[31;1m" ;
-		//	for(int i = 0; i < tabs; i++)
-		//		std::cout << '\t';
-		//	std::cout << color << *root->value << "\x1b[31;1m" << std::endl;
-		//	_visualize(tabs-1, root->left, false);
-		//	_visualize(2, root->right, true);
-		//	
-		//
-		//}	
-
-		//PUBLIC FUNCTIONS
 	public:
 		iterator	end(){
 			return (iterator(_header));
@@ -303,7 +294,7 @@ class red_black_tree{
 			return (find_res == NULL ? end() : const_iterator(find_res));
 		}
 		
-		ft::pair<iterator, bool> /*pohui*/ insert(value_type const &value){
+		ft::pair<iterator, bool> insert(value_type const &value){
 			node_pointer find_val = search(value, _root);
 			if (find_val)
 				return ft::pair<iterator, bool>(iterator(find_val), false);
@@ -360,7 +351,9 @@ class red_black_tree{
 
 
 		void erase(iterator pos){
-			node_pointer y = pos.node(), x, for_free = y;
+			node_pointer y = pos.node()
+			node_pointer x
+			node_pointer for_free = y;
 			bool y_original_is_black = y->is_black;
 			if (is_nil(y->left)){
 				x = y->right;
@@ -611,24 +604,12 @@ class red_black_tree{
 			return (ft::make_pair(lower_bound(value), upper_bound(value)));
 		}
 
-		//pair<const_iterator, const_iterator> equal_range(const value_type &value) const{
-		//	return (make_pair(lower_bound(value), upper_bound(value)));
-		//}
 		
 		allocator_type get_allocator() const{
 			return (_val_alloc);
 		}
 		
 
-		//template<typename A, typename B>
-		//friend bool operator==(const red_black_tree::template tree_iterator<A> & lhs, const red_black_tree::template tree_iterator<B> & rhs){
-		//	return (lhs.node() == rhs.node());
-		//}
-
-		//template<typename A, typename B>
-		//friend bool operator!=(const red_black_tree::template tree_iterator<A> & lhs, const red_black_tree::template tree_iterator<B> & rhs){
-		//	return (lhs.node() != rhs.node());
-		//}
 
 };
 
@@ -651,6 +632,8 @@ bool operator==(const red_black_tree<Content, Compare, Alloc>& lhs, const red_bl
 template<class Content, class Compare, class Alloc>
 void swap(const  red_black_tree<Content, Compare, Alloc>& lhs, const  red_black_tree<Content, Compare, Alloc>& rhs){
 	lhs.swap(rhs);
+}
+
 }
 
 #endif

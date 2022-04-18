@@ -5,7 +5,6 @@ namespace ft{
 
 template<class Value>
 struct Node{
-	//typedef Node*			pointer;
 	public:
 	explicit Node(Value *srcval = 0) :	value(srcval),
 										parent(0),
