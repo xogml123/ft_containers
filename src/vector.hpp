@@ -8,6 +8,7 @@
 #include "algorithm.hpp"
 #include <stdexcept>
 
+
 namespace ft
 {
 	template < class T, class Alloc = std::allocator<T> >
@@ -578,5 +579,5 @@ namespace ft
 	{
 		x.swap(y);
 	}
-}
+};
 #endif

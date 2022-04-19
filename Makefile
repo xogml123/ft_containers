@@ -2,22 +2,23 @@ NAME = ft_containers
 
 CC = c++
 
-CFLAGS = -IsrcS/ -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Isrc -Wall -Wextra -Werror -std=c++98
 
 SRCS = main.cpp
 OBJS = main.o
 
 all: $(NAME)
 
-$(NAME):
+
+
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
-bonus: all
-
 %.o : %.cpp
-	$(CC) $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $^
+
 clean:
-	rm -rf $(OBJS)
+	rm $(OBJS)
 
 fclean: clean
 	rm $(NAME)
